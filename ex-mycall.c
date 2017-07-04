@@ -7,8 +7,10 @@
 #include <unistd.h>
 
 int main() {
-  char *buf = "5+2";
-  int r = syscall(384,buf);
-  printf("Chamei com %s, Retorno da chamada de sistema: %d.\n",buf, r);
-  return 0;
+    int n1 = 50;
+    int n2 = 5;
+    char o = '+';
+    int r = syscall(384,n1,n2,o);
+    printf("-------\nex-mycall: \nChamei com %d, %d, %c \nRetorno da chamada de sistema: %d.\n", n1, n2, o, r);
+    return 0;
 }
