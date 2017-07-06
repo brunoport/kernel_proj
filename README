@@ -1,3 +1,8 @@
+A nossa função de chamada de sistema tem por objetivo calcular uma operação (+,-,* ou /)
+entre 2 operandos e tendo o resultado como retorno. Para utiliza-la, é necessário passar
+os 2 operandos como parametro e o caracter que representa a operação como terceiro parametro.
+Por ex: syscall(384, 5, 50, '*') deve retornar 250 (sendo 384 o numero da chamada de sistema). 
+
 Para testar a nossa chamada sistema:
 
 1 -  Alterar a tabela linux-4.11.3/arch/x86/entry/syscalls/syscall_32.tbl, acrescentando uma nova linha ao final do arquivo:
