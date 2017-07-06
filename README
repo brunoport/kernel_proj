@@ -1,0 +1,30 @@
+Para testar a nossa chamada sistema:
+
+1 -  Alterar a tabela linux-4.11.3/arch/x86/entry/syscalls/syscall_32.tbl, acrescentando uma nova linha ao final do arquivo:
+    384     i386    mycall                  sys_mycall
+
+2 - Incluir uma declaração da função sys_mycall em um ponto adequado do arquivo linux-4.11.3/include/linux/syscalls.h:
+    asmlinkage long sys_mycall(int n1, int n2, char op);
+
+3 - Incluir o código para função (mycall.c) no diretório linux-4.11.3/arch/x86/kernel/
+
+4 - Alterar o Makefile do diretório linux-4.11.3/arch/x86/kernel/, incluindo uma linha:
+    obj-y += mycall.o
+
+5 - No diretório linux-4.11.3 executar
+    $ make -j 5 ARCH=i386
+
+6 - Criar um mini sistema de arquivos com o codigo com exemplo de uso da chamada de sistema (ex-mycall.c):
+    $ dd if=/dev/zero of=ext2.dmp bs=1k count=100
+    $ mkfs.ext2 ext2.dmp
+    $ debugfs -w ext2.dmp
+      debugfs: write ex-mycall.c ex-mycall.c
+      debugfs: quit
+    $ qemu-system-i386 -hda ArchLinux_mc504.cow -kernel linux-4.11.3/arch/i386/boot/bzImage -append "rw root=/dev/hda" -drive format=raw,file=ext2.dmp
+
+7 - Após logar no sistema, devemos executar:
+    $ mkdir mnt
+    $ mount -t ext2 /dev/hdb mnt
+    $ cd mnt
+    $ gcc ex-mycall.c -o ex-mycall
+    $ ./ex-mycall
